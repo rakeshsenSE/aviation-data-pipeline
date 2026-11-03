@@ -61,6 +61,16 @@ The live flight telemetry data collected by our automated pipeline is also hoste
 │ Streamlit UI │                 │  AI Assistant   │ (Google Gemini SDK)
 └──────────────┘                 └─────────────────┘
 ```
+## 👨‍💻 Author & License
+
+**Rakesh Sen
+
+** GitHub: @rakeshsenSE
+
+** Public Dataset: [Kaggle Dataset Profile](https://www.kaggle.com/datasets/rakeshsen00/real-time-live-flight-and-aviation-tracking-dataset)
+
+** Distributed under the MIT License / CC0: Public Domain.
+
 ## 📂 Project Structure
 ```text
 📦 Flight Pulse
