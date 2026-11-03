@@ -1,15 +1,21 @@
 import os
+import urllib.parse
 from dotenv import load_dotenv
-import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 from sqlalchemy import create_engine
 
 load_dotenv()
-gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-DB_URI = "sqlite:///flight_pulse.db"
+db_user = os.getenv("DB_USER", "root")
+db_password = os.getenv("DB_PASSWORD", "rakeshsen")
+db_host = os.getenv("DB_HOST", "localhost")
+db_name = os.getenv("DB_NAME", "flight_push")
+encoded_pass = urllib.parse.quote_plus(db_password)
+
+DB_URI = f"mysql+pymysql://{db_user}:{encoded_pass}@{db_host}/{db_name}"
 
 st.set_page_config(page_title="Flight Pulse Dashboard", layout="wide")
 st.title("✈️ Flight Pulse: Advanced Analytics Dashboard")
@@ -31,10 +37,7 @@ def load_data():
 df_flights, df_weather, df_news = load_data()
 
 if df_flights.empty:
-  st.warning(
-      "There was no Data!! (Please ensure flight_pulse.db is present and"
-      " populated)"
-  )
+  st.warning("There was no Data!!")
   filtered_df = df_flights.copy()
 else:
   st.sidebar.header("🔍 Filter Options")
@@ -173,7 +176,8 @@ if not df_news.empty:
 else:
   st.info("No news alerts found in database.")
 
-# Flight Pulse AI Assistant (Text-to-SQL Pipeline with Gemini)
+# Flight Pulse AI Assistant (Direct Text-to-SQL Pipeline)
+gemini_api_key = os.getenv("GEMINI_API_KEY")
 st.markdown("---")
 st.subheader("🤖 Flight Pulse AI Assistant")
 st.markdown("Ask any Question (like: *'Show me the total flights'*):")
@@ -183,32 +187,35 @@ user_query = st.text_input("Ask your AI Analyst:")
 if user_query:
   with st.spinner("AI is analyzing your database..."):
     try:
-      genai.configure(api_key=gemini_api_key)
+      ai_engine = create_engine(DB_URI)
 
       schema_info = """
             Tables in database:
-            - flights (icao24, callsign, origin_country, longitude, latitude, velocity, geo_altitude, vertical_rate)
-            - weather (temperature_c, wind_speed_ms, weather_condition, weather_description, visibility_m, fetched_at)
-            - news_alerts (title, url, source, published_at)
+            - flights (id, callsign, origin_country, time_position, last_contact, longitude, latitude, baro_altitude, velocity, true_track, vertical_rate, geo_altitude, squawk, spi, position_source, fetched_at)
+            - weather (id, temperature_c, wind_speed_ms, weather_condition, weather_description, visibility_m, fetched_at)
+            - news_alerts (id, title, url, source, published_at)
             """
 
-      model = genai.GenerativeModel("gemini-2.5-pro")
+      llm = ChatGoogleGenerativeAI(
+          model="gemini-2.5-flash", google_api_key=gemini_api_key
+      )
 
       prompt = f"""
-            You are an expert SQL assistant for an SQLite database.
-            Based on the schema below, write ONLY a valid SQLite SQL query to answer the user's question. Do not include markdown code blocks like ```sql or any extra text, just write the raw SQL query.
+            You are an expert SQL assistant for a MySQL database.
+            Based on the schema below, write ONLY a valid SQL query to answer the user's question. Do not include markdown code blocks like ```sql or any extra text, just write the raw SQL query.
 
             {schema_info}
 
             User Question: {user_query}
             """
 
-      response = model.generate_content(prompt)
+      sql_response = llm.invoke(prompt)
       sql_query = (
-          response.text.replace("```sql", "").replace("```", "").strip()
+          sql_response.content.replace("```sql", "")
+          .replace("```", "")
+          .strip()
       )
 
-      ai_engine = create_engine(DB_URI)
       with ai_engine.connect() as connection:
         result_df = pd.read_sql(sql_query, con=connection)
 
@@ -221,8 +228,8 @@ if user_query:
 
                 Please provide a clear, natural, and concise answer to the user based on this result.
                 """
-        summary_response = model.generate_content(summary_prompt)
-        st.success(summary_response.text)
+        final_answer = llm.invoke(summary_prompt)
+        st.success(final_answer.content)
       else:
         st.info(
             "Query executed successfully, but no matching data found in the"
