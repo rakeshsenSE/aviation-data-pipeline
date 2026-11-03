@@ -187,12 +187,12 @@ if user_query:
 
       schema_info = """
             Tables in database:
-            - flights (callsign, origin_country, time_position, last_contact, longitude, latitude, baro_altitude, velocity, true_track, vertical_rate, geo_altitude, squawk, spi, position_source, fetched_at)
+            - flights (icao24, callsign, origin_country, longitude, latitude, velocity, geo_altitude, vertical_rate)
             - weather (temperature_c, wind_speed_ms, weather_condition, weather_description, visibility_m, fetched_at)
             - news_alerts (title, url, source, published_at)
             """
 
-      model = genai.GenerativeModel("gemini-2.5-flash")
+      model = genai.GenerativeModel("gemini-2.5-pro")
 
       prompt = f"""
             You are an expert SQL assistant for an SQLite database.
