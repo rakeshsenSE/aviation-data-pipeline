@@ -12,6 +12,9 @@
   <img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white" />
   <img src="https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white" />
 </p>
+---
+## 🚀 Live Application: Explore the deployed dashboard at https://flight-pulse99.streamlit.app/
+
 
 ---
 
@@ -52,7 +55,7 @@ The live flight telemetry data collected by our automated pipeline is also hoste
              └───────────┬───────────┘
                          ▼
              ┌───────────────────────┐
-             │ MySQL Database Engine │ (Relational Schema Storage)
+             │ SQLite Database Engine │ (Relational Schema Storage)
              └───────────┬───────────┘
                          │
         ┌────────────────┴────────────────┐
