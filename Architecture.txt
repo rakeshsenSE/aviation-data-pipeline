@@ -6,7 +6,7 @@
           ▼
 [ Data Pipeline & Storage ]
   ├── Data Cleaning & Merging (Python - Pandas)
-  └── Structured Storage (SQL Database / MYSQL)
+  └── Structured Storage (SQL Database / SQLite)
           │
           ▼
 [ Core Application (Streamlit) ]

@@ -1,7 +1,6 @@
 streamlit
 pandas
 plotly
-pymysql
 sqlalchemy
 python-dotenv
 google-generativeai

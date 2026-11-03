@@ -1,5 +1,4 @@
 import os
-import urllib.parse
 from dotenv import load_dotenv
 import google.generativeai as genai
 import pandas as pd
@@ -8,14 +7,9 @@ import streamlit as st
 from sqlalchemy import create_engine
 
 load_dotenv()
+gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-db_user = os.getenv("DB_USER", "root")
-db_password = os.getenv("DB_PASSWORD", "rakeshsen")
-db_host = os.getenv("DB_HOST", "localhost")
-db_name = os.getenv("DB_NAME", "flight_push")
-encoded_pass = urllib.parse.quote_plus(db_password)
-
-DB_URI = f"mysql+pymysql://{db_user}:{encoded_pass}@{db_host}/{db_name}"
+DB_URI = "sqlite:///flight_pulse.db"
 
 st.set_page_config(page_title="Flight Pulse Dashboard", layout="wide")
 st.title("✈️ Flight Pulse: Advanced Analytics Dashboard")
@@ -37,7 +31,10 @@ def load_data():
 df_flights, df_weather, df_news = load_data()
 
 if df_flights.empty:
-  st.warning("There was no Data!!")
+  st.warning(
+      "There was no Data!! (Please ensure flight_pulse.db is present and"
+      " populated)"
+  )
   filtered_df = df_flights.copy()
 else:
   st.sidebar.header("🔍 Filter Options")
@@ -176,8 +173,7 @@ if not df_news.empty:
 else:
   st.info("No news alerts found in database.")
 
-# Flight Pulse AI Assistant (Direct Text-to-SQL Pipeline)
-gemini_api_key = os.getenv("GEMINI_API_KEY")
+# Flight Pulse AI Assistant (Text-to-SQL Pipeline with Gemini)
 st.markdown("---")
 st.subheader("🤖 Flight Pulse AI Assistant")
 st.markdown("Ask any Question (like: *'Show me the total flights'*):")
@@ -191,16 +187,16 @@ if user_query:
 
       schema_info = """
             Tables in database:
-            - flights (id, callsign, origin_country, time_position, last_contact, longitude, latitude, baro_altitude, velocity, true_track, vertical_rate, geo_altitude, squawk, spi, position_source, fetched_at)
-            - weather (id, temperature_c, wind_speed_ms, weather_condition, weather_description, visibility_m, fetched_at)
-            - news_alerts (id, title, url, source, published_at)
+            - flights (callsign, origin_country, time_position, last_contact, longitude, latitude, baro_altitude, velocity, true_track, vertical_rate, geo_altitude, squawk, spi, position_source, fetched_at)
+            - weather (temperature_c, wind_speed_ms, weather_condition, weather_description, visibility_m, fetched_at)
+            - news_alerts (title, url, source, published_at)
             """
 
       model = genai.GenerativeModel("gemini-2.5-flash")
 
       prompt = f"""
-            You are an expert SQL assistant for a MySQL database.
-            Based on the schema below, write ONLY a valid SQL query to answer the user's question. Do not include markdown code blocks like ```sql or any extra text, just write the raw SQL query.
+            You are an expert SQL assistant for an SQLite database.
+            Based on the schema below, write ONLY a valid SQLite SQL query to answer the user's question. Do not include markdown code blocks like ```sql or any extra text, just write the raw SQL query.
 
             {schema_info}
 
