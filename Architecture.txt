@@ -1,0 +1,14 @@
+[ Data Sources ]
+  ├── Flight Data (Scraper / OpenSky API)
+  ├── Weather Data (OpenWeatherMap API)
+  └── Aviation News (NewsAPI)
+          │
+          ▼
+[ Data Pipeline & Storage ]
+  ├── Data Cleaning & Merging (Python - Pandas)
+  └── Structured Storage (SQL Database / MYSQL)
+          │
+          ▼
+[ Core Application (Streamlit) ]
+  ├── Interactive Analytics Dashboard (Plotly Charts & Filters)
+  └── AI Flight Analyst Chatbot (Gemini API + Text-to-SQL)
