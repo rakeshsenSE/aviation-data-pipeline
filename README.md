@@ -32,31 +32,30 @@ The live flight telemetry data collected by our automated pipeline is also hoste
 
 ---
 
-<details>
+
 <summary>📸 <b>Click here to view Dashboard Screenshots</b></summary>
 <br>
 
-![1. Overview Dashboard](<img width="1917" height="908" alt="Screenshot 2026-11-08 013507" src="https://github.com/user-attachments/assets/4336dda6-0bf7-46ae-afcf-16295e96dfd6" />
-)
+![1. Overview Dashboard]<img width="1917" height="908" alt="Screenshot 2026-11-08 013507" src="https://github.com/user-attachments/assets/4336dda6-0bf7-46ae-afcf-16295e96dfd6" />
+
 *Figure 1: Dashboard Overview & Key Metrics*
 
-![2. AI Analyst Query](<img width="1917" height="902" alt="Screenshot 2026-11-08 014008" src="https://github.com/user-attachments/assets/95ddceb9-3fc4-4d76-9e43-40d72e7188d7" />
-)
+![2. AI Analyst Query]<img width="1917" height="902" alt="Screenshot 2026-11-08 014008" src="https://github.com/user-attachments/assets/95ddceb9-3fc4-4d76-9e43-40d72e7188d7" />
+
 *Figure 2: Text-to-SQL AI Assistant*
 
-![3. Live Map](<img width="1917" height="912" alt="Screenshot 2026-11-08 013623" src="https://github.com/user-attachments/assets/60792190-b953-4d31-ac11-1893cdfa60fb" />
-)
+![3. Live Map]<img width="1917" height="912" alt="Screenshot 2026-11-08 013623" src="https://github.com/user-attachments/assets/60792190-b953-4d31-ac11-1893cdfa60fb" />
+
 *Figure 3: Geographical Distribution Map*
 
-![4. Time Series Trend](<img width="1917" height="883" alt="Screenshot 2026-11-08 014715" src="https://github.com/user-attachments/assets/3ebe8132-4ec7-434e-b4dd-daddd5236b68" />
-)
+![4. Time Series Trend]<img width="1917" height="883" alt="Screenshot 2026-11-08 014715" src="https://github.com/user-attachments/assets/3ebe8132-4ec7-434e-b4dd-daddd5236b68" />
+
 *Figure 4: Time-based Flight Activity Trend*
 
-![5. News & Alerts](<img width="1871" height="905" alt="Screenshot 2026-11-08 014425" src="https://github.com/user-attachments/assets/0284fcf4-a32c-40c0-a59d-d05ba6b76b5b" />
-)
+![5. News & Alerts]<img width="1871" height="905" alt="Screenshot 2026-11-08 014425" src="https://github.com/user-attachments/assets/0284fcf4-a32c-40c0-a59d-d05ba6b76b5b" />
+
 *Figure 5: Real-time Aviation News Feed*
 
-</details>
 
 ---
 
